@@ -1,16 +1,9 @@
 #!/usr/bin/env npx tsx
 
-import os from "node:os"
-import path from "node:path"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
-import { config as loadEnv } from "dotenv"
 import Twilio from "twilio"
 import { z } from "zod"
-
-// Load credentials from ~/.claude/secrets/twilio/.env
-const envPath = path.join(os.homedir(), ".claude", "secrets", "twilio", ".env")
-loadEnv({ path: envPath })
 
 const config = {
 	accountSid: process.env.TWILIO_ACCOUNT_SID || "",
@@ -20,11 +13,11 @@ const config = {
 }
 
 if (!config.accountSid || !config.authToken || !config.messagingServiceSid) {
-	console.error(`Missing credentials. Create ${envPath} with:`)
-	console.error("TWILIO_ACCOUNT_SID=your_account_sid")
-	console.error("TWILIO_AUTH_TOKEN=your_auth_token")
-	console.error("TWILIO_MESSAGING_SERVICE_SID=your_messaging_service_sid")
-	console.error("TWILIO_DEFAULT_TO=+1234567890  # optional")
+	console.error("Missing Twilio credentials. Set these environment variables:")
+	console.error("  TWILIO_ACCOUNT_SID")
+	console.error("  TWILIO_AUTH_TOKEN")
+	console.error("  TWILIO_MESSAGING_SERVICE_SID")
+	console.error("  TWILIO_DEFAULT_TO  (optional)")
 	process.exit(1)
 }
 
